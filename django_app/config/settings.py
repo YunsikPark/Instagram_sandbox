@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Custom User
+AUTH_USER_MODEL = 'member.User'
+
 
 # Application definition
 
@@ -39,7 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'post',
+    'member'
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
