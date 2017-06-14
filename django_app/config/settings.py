@@ -32,7 +32,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
 
-# Custom User
+# Custom User (default : auth.User)
 AUTH_USER_MODEL = 'member.User'
 
 
