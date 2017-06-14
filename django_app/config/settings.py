@@ -14,18 +14,23 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# django_app/templates
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
+# django_app/static
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+# django_app/media
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '&9rpb)u(*=4#r$=#2&0=4$_!1v6z%52$dr4p0s5xhbm$mn5^ol'
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.11/howto/static-files/
+STATICFILES_DIRS = [
+    STATIC_DIR,
+]
+STATIC_URL = '/static/'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+MEDIA_URL = '/media/'
 
-ALLOWED_HOSTS = []
 
 # Custom User
 AUTH_USER_MODEL = 'member.User'
@@ -123,9 +128,15 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
+
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = '&9rpb)u(*=4#r$=#2&0=4$_!1v6z%52$dr4p0s5xhbm$mn5^ol'
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+ALLOWED_HOSTS = []
