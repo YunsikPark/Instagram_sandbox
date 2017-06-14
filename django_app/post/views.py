@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.template import loader
 
@@ -15,7 +15,14 @@ def post_list(request):
 
 
 def post_detail(request, post_pk):
-    post = Post.objects.get(pk=post_pk)
+    try:
+        post = Post.objects.get(pk=post_pk)
+    except Post.DoesNotExist as e:
+        # return HttpResponseNotFound('Post not found, detail: {}'.format(e))
+
+        return redirect('post:post_list')
+
+
     template = loader.get_template('post/post_detail.html')
     context = {
         'post' : post,
