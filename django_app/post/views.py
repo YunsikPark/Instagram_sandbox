@@ -22,13 +22,13 @@ def post_detail(request, post_pk):
 
         return redirect('post:post_list')
 
-
     template = loader.get_template('post/post_detail.html')
     context = {
-        'post' : post,
+        'post': post,
     }
     rendered_string = template.render(context=context, request=request)
     return HttpResponse(rendered_string)
+
 
 def post_create(request):
     # POST요청을 받아 Post객체를 생성 후 post_list페이지로 redirect

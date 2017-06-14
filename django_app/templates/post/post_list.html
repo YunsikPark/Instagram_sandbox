@@ -1,16 +1,11 @@
-
+{% extents 'common/base.html' %}
 
 {% block content %}
-
     {% for post in posts %}
         <div>
             <span>{{ post.id }}</span>
-            <p>{{ post.author }}</p>
+            <span>{{ post.author }}</span>
             <img src="{{ post.photo.url }}" alt="">
-            <br>
-            <a href="{% url 'post:post_detail' post_pk=post.pk %}">{{ post.created_date }}</a>
         </div>
-
     {% endfor %}
-
-{% endblock %}
+{% endblock content %}
