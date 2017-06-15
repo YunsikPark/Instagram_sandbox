@@ -9,6 +9,7 @@
     <title>Instagram</title>
     <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
     <link rel="stylesheet" href="{% static 'css/layout.css' %}">
     <link rel="stylesheet" href="{% static 'css/post.css' %}">
 </head>
@@ -34,6 +35,16 @@
           <img src="{% static 'images/icon_profile.png' %}" alt="">
         </a>
       </div>
+    </nav>
+    <nav>
+        <div>
+            {% if user.is_authenticated %}
+            <span>'{{ user }}'가 로그인 중 입니다.</span>
+            <a href="{% url 'member:logout' %}" class="btn">Logout</a>
+            {% else %}
+            <a href="{% url 'member:login' %}" class="btn">Login</a>
+            {% endif %}
+        </div>
     </nav>
   </header>
 <div class="container">
