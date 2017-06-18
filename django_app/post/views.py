@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.template import loader
@@ -6,6 +7,7 @@ from django.urls import reverse
 
 User = get_user_model()
 
+from .forms import PostForm
 from .models import Post
 
 
@@ -35,24 +37,21 @@ def post_detail(request, post_pk):
     return HttpResponse(rendered_string)
 
 
+@login_required
 def post_create(request):
     if request.method == 'POST':
-        user = User.objects.first()
-        post = Post.objects.create(
-            author=user,
-            photo=request.FILES['file'],
-        )
-        comment_string = request.POST.get('comment', '')
-        if comment_string:
-            post.comment_set.create(
-                # 임의의 user를 사용하므로 나중에 실제 로그인 된 사용자로 바꾸어 주어야 함
-                author=user,
-                content=comment_string,
-            )
-
-        return redirect('post:post_detail', post_pk=post.pk)
+        form = PostForm(data=request.POST, files=request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('post:post_detail', post_pk=post.pk)
     else:
-        return render(request, 'post/post_create.html')
+        form = PostForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'post/post_create.html', context)
 
 
 def post_modify(request, post_pk):

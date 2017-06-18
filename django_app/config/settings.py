@@ -34,6 +34,7 @@ MEDIA_URL = '/media/'
 
 # Custom User (default : auth.User)
 AUTH_USER_MODEL = 'member.User'
+LOGIN_URL = 'member:login'
 
 
 # Application definition
