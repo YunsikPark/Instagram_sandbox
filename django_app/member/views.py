@@ -16,6 +16,9 @@ def login(request):
         if form.is_valid():
             user = form.cleaned_data['user']
             django_login(request, user)
+            next = request.GET.get('next')
+            if next:
+                return redirect(next)
             return redirect('post:post_list')
 
         else:
@@ -25,10 +28,10 @@ def login(request):
         if request.user.is_authenticated:
             return redirect('post:post_list')
         form = LoginForm()
-        context = {
-            'form': form,
-        }
-        return render(request, 'member/login.html', context)
+    context = {
+        'form': form,
+    }
+    return render(request, 'member/login.html', context)
 
 
 def logout(request):
