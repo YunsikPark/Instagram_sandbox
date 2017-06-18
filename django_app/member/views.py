@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, \
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from .forms import LoginForm
+from .forms import LoginForm, SignupForm
 
 User = get_user_model()
 
@@ -38,18 +38,26 @@ def logout(request):
 
 def signup(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
-        if User.objects.filter(username=username).exists():
-            return HttpResponse('Username is already exist')
-        elif password1 != password2:
-            return HttpResponse('Password and Password check are not equal')
-        user = User.objects.create_user(
-            username=username,
-            password=password1,
-        )
-        django_login(request, user)
-        return redirect('post:post_list')
+        form = SignupForm(data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password1 = form.cleaned_data['password1']
+            password2 = form.cleaned_data['password2']
+            # if User.objects.filter(username=username).exists():
+            #     return HttpResponse('Username is already exist')
+            # elif password1 != password2:
+            #     return HttpResponse('Password and Password Check are Not Equal')
+            # user = User.objects.create_user(
+            #     username=username,
+            #     password=password1
+            # )
+
+            # django_login(request, user)
+            return redirect('post:post_list')
+
     else:
-        return render(request, 'member/signup.html')
+        form = SignupForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'member/signup.html', context)
