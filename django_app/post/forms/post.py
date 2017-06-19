@@ -1,6 +1,6 @@
 from django import forms
 
-from ..models import Post
+from ..models import Post, Comment
 
 
 class PostForm(forms.ModelForm):
@@ -27,10 +27,16 @@ class PostForm(forms.ModelForm):
         self.instance.author = author
         instance = super().save(**kwargs)
 
-        comment_string = self.clenaed_data['comment']
+        comment_string = self.cleaned_data['comment']
         if commit and comment_string:
-            instance.comment_set.create(
-                author=instance.author,
-                content=comment_string
-            )
+            if instance.my_comment:
+                instance.my_comment.content = comment_string
+                instance.my_comment.save()
+            else:
+                instance.my_comment = Comment.objects.create(
+                    post=instance,
+                    author=author,
+                    content=comment_string
+                )
+            instance.save()
         return instance
