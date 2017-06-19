@@ -24,6 +24,15 @@ article.post {
     .post-bottom {
         padding: 15px;
 
+        .post-btn-container {
+            .btn-left {
+                float: left;
+            }
+            .btn-right {
+                float: right;
+            }
+        }
+
         p.comment {
             font-size: 11px;
             color: $color-text-gray;
