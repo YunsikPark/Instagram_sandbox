@@ -5,6 +5,8 @@ from django.shortcuts import render, redirect
 from django.template import loader
 from django.urls import reverse
 
+from post.decorators import post_owner
+
 User = get_user_model()
 
 from .forms import PostForm
@@ -52,6 +54,8 @@ def post_create(request):
     return render(request, 'post/post_create.html', context)
 
 
+@post_owner
+@login_required
 def post_modify(request, post_pk):
     post = Post.objects.get(pk=post_pk)
 
