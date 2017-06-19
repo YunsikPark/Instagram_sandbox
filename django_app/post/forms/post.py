@@ -19,3 +19,18 @@ class PostForm(forms.ModelForm):
             'photo',
             'comment',
         )
+
+    def save(self, **kwargs):
+        commit = kwargs.get('commit', True)
+        author = kwargs.pop('author', None)
+
+        self.instance.author = author
+        instance = super().save(**kwargs)
+
+        comment_string = self.clenaed_data['comment']
+        if commit and comment_string:
+            instance.comment_set.create(
+                author=instance.author,
+                content=comment_string
+            )
+        return instance
