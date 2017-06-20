@@ -14,53 +14,62 @@
     <link rel="stylesheet" href="{% static 'css/post.css' %}">
 </head>
 <body>
-  <header class="top-header">
-    <nav>
-      <div class="nav-left nav-item">
-        <a href="{% url 'post:post_list' %}">
-          <img src="{% static 'images/logo.png' %}" alt="">
-        </a>
-      </div>
-      <div class="nav-center nav-item">
-        <input type="text" placeholder="검색">
-      </div>
-      <div class="nav-right nav-item">
-        <a href="#">
-          <img src="{% static 'images/icon_explore.png' %}" alt="">
-        </a>
-        <a href="#">
-          <img src="{% static 'images/icon_heart.png' %}" alt="">
-        </a>
-        <a href="#">
-          <img src="{% static 'images/icon_profile.png' %}" alt="">
-        </a>
-      </div>
-    </nav>
-    <nav>
-        <div>
-            {% if user.is_authenticated %}
-            <span>'{{ user }}'가 로그인 중 입니다.</span>
-            <a href="{% url 'member:logout' %}" class="btn">로그아웃</a>
-            {% else %}
-            <form action="{% url 'member:login' %}" method="post" class="form-inline-login">
-                {% csrf_token %}
-                <!-- <label for="id-login-username">ID: </label>
-                <input id="id-login-username" type="text" name="username">
-                &nbsp;
-                <label for="id-login-password">PW: </label>
-                <input id="id-login-password" type="password" name="password"> -->
-                {{ login_form }}
-                <button type="submit" class="btn">로그인</button>
-                <a href="{% url 'member:signup' %}" class="btn">회원가입</a>
-            </form>
-            
-            {% endif %}
-        </div>
-    </nav>
-  </header>
-<div class="container">
-  {% block content %}
-  {% endblock content %}
+{% if messages %}
+    <div class="message">
+        {% for message in messages %}
+            <div>{{ message }}</div>
+        {% endfor %}
+    </div>
+{% endif %}
+<div id="wrap">
+    <header class="top-header">
+        <nav>
+            <div class="nav-left nav-item">
+                <a href="{% url 'post:post_list' %}">
+                    <img src="{% static 'images/logo.png' %}" alt="">
+                </a>
+            </div>
+            <div class="nav-center nav-item">
+                <input type="text" placeholder="검색">
+            </div>
+            <div class="nav-right nav-item">
+                <a href="#">
+                    <img src="{% static 'images/icon_explore.png' %}" alt="">
+                </a>
+                <a href="#">
+                    <img src="{% static 'images/icon_heart.png' %}" alt="">
+                </a>
+                <a href="#">
+                    <img src="{% static 'images/icon_profile.png' %}" alt="">
+                </a>
+            </div>
+        </nav>
+        <nav>
+            <div>
+                {% if user.is_authenticated %}
+                    <span>'{{ user }}'가 로그인 중 입니다.</span>
+                    <a href="{% url 'member:logout' %}" class="btn">로그아웃</a>
+                {% else %}
+                    <form action="{% url 'member:login' %}" method="post" class="form-inline-login">
+                        {% csrf_token %}
+                        <!-- <label for="id-login-username">ID: </label>
+                        <input id="id-login-username" type="text" name="username">
+                        &nbsp;
+                        <label for="id-login-password">PW: </label>
+                        <input id="id-login-password" type="password" name="password"> -->
+                        {{ login_form }}
+                        <button type="submit" class="btn">로그인</button>
+                        <a href="{% url 'member:signup' %}" class="btn">회원가입</a>
+                    </form>
+
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        {% block content %}
+        {% endblock content %}
+    </div>
 </div>
 </body>
 </html>

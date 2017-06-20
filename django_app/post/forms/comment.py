@@ -17,3 +17,11 @@ class CommentForm(forms.ModelForm):
                 }
             )
         }
+
+    def clean_content(self):
+        content = self.cleaned_data['content']
+        if len(content) < 3:
+            raise forms.ValidationError(
+                '댓글은 최소 3자 이상이어야 합니다'
+            )
+        return content
