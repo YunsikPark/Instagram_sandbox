@@ -1,4 +1,5 @@
-from django.contrib.auth import authenticate, \
+from django.contrib.auth import \
+    authenticate, \
     login as django_login, \
     logout as django_logout, get_user_model
 from django.http import HttpResponse
@@ -43,19 +44,8 @@ def signup(request):
     if request.method == 'POST':
         form = SignupForm(data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data['username']
-            password1 = form.cleaned_data['password1']
-            password2 = form.cleaned_data['password2']
-            # if User.objects.filter(username=username).exists():
-            #     return HttpResponse('Username is already exist')
-            # elif password1 != password2:
-            #     return HttpResponse('Password and Password Check are Not Equal')
-            # user = User.objects.create_user(
-            #     username=username,
-            #     password=password1
-            # )
-
-            # django_login(request, user)
+            user = form.create_user()
+            django_login(request, user)
             return redirect('post:post_list')
 
     else:
