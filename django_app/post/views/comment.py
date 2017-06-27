@@ -5,7 +5,7 @@ from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 
 from ..forms import CommentForm
-from ..models import Post
+from ..models import Post, Comment
 
 User = get_user_model()
 
@@ -36,9 +36,16 @@ def comment_create(request, post_pk):
     return redirect('post:post_detail', post_pk=post.pk)
 
 
-def comment_modify(request, post_pk):
-    # 수정
-    pass
+def comment_modify(request, comment_pk):
+    comment = get_object_or_404(Comment, post_pk=post.pk)
+    if request.method == 'POST':
+        pass
+    else:
+        form = CommentForm(instance=comment)
+    context = {
+        'form': form,
+    }
+    return render(request, 'post/comment/modify.html', context)
 
 
 def comment_delete(request, post_pk, comment_pk):
