@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404, render
 from django.views.decorators.http import require_POST
 
 from ..forms import CommentForm
@@ -37,7 +37,7 @@ def comment_create(request, post_pk):
 
 
 def comment_modify(request, comment_pk):
-    comment = get_object_or_404(Comment, post_pk=post.pk)
+    comment = get_object_or_404(Comment, pk=comment_pk)
     if request.method == 'POST':
         pass
     else:
